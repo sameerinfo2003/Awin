@@ -19,22 +19,26 @@ public class AwinLoggerTest {
 
     @Test
     void debug(){
-        logger.debug();
+        String debugMessage = "DEBUG message";
+        logger.debug(debugMessage);
     }
 
     @Test
     void info(){
-        logger.info();
+        String infoMessage = "INFO message";
+        logger.info(infoMessage);
     }
 
     @Test
     void warning(){
-        logger.warning();
+        String warningMessage = "WARNING message";
+        logger.warning(warningMessage);
     }
 
     @Test
     void error(){
-        logger.error();
+        String errorMessage = "ERROR message";
+        logger.error(errorMessage);
     }
 
 }
