@@ -10,11 +10,11 @@ public class AwinLoggerTest {
     AwinLogger logger;
     @BeforeEach
     void setUp(){
-        logger = AwinLogger.getInstance();
+        logger = AwinLogger.getInstance(AwinLoggerTest.class);
     }
     @Test
     void getInstance(){
-        assertNotNull(AwinLogger.getInstance());
+        assertNotNull(AwinLogger.getInstance(AwinLoggerTest.class));
     }
 
     @Test
