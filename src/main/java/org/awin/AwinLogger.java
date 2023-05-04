@@ -8,4 +8,16 @@ public class AwinLogger {
     public AwinLogger getInstance() {
         return new AwinLogger();
     }
+
+    public void debug() {
+    }
+
+    public void info() {
+    }
+
+    public void warning() {
+    }
+
+    public void error() {
+    }
 }

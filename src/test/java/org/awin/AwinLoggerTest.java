@@ -17,4 +17,24 @@ public class AwinLoggerTest {
         assertNotNull(logger.getInstance());
     }
 
+    @Test
+    void debug(){
+        logger.debug();
+    }
+
+    @Test
+    void info(){
+        logger.info();
+    }
+
+    @Test
+    void warning(){
+        logger.warning();
+    }
+
+    @Test
+    void error(){
+        logger.error();
+    }
+
 }
