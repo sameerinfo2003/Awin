@@ -1,6 +1,9 @@
 package org.awin;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
+import java.util.Properties;
 
 public class AwinLogger {
 
@@ -17,7 +20,22 @@ public class AwinLogger {
     }
 
     public static AwinLogger getInstance(Class<?> className) {
-        classNameStr = className.getCanonicalName();
+        Properties properties = new Properties();
+        java.net.URL config = ClassLoader.getSystemResource("config.properties");
+        String configuredloggingLevel;
+
+        try  {
+            properties.load(config.openStream());
+            configuredloggingLevel = properties.getProperty("logLevel");
+            System.out.println(properties.getProperty(configuredloggingLevel));
+        } catch (FileNotFoundException fie) {
+            fie.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        classNameStr = className.getName();
         System.out.println("Returning AwinLogger instance");
         return awinLogger;
     }
