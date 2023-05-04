@@ -9,6 +9,8 @@ public class AwinLogger {
 
     private static final AwinLogger awinLogger = new AwinLogger();
     private static String classNameStr = null;
+    private static String configuredloggingLevel = null;
+    private static String loggingOutputTarget = null;
 
     private static boolean debug = false;
     private static boolean info = false;
@@ -22,12 +24,29 @@ public class AwinLogger {
     public static AwinLogger getInstance(Class<?> className) {
         Properties properties = new Properties();
         java.net.URL config = ClassLoader.getSystemResource("config.properties");
-        String configuredloggingLevel;
 
         try  {
             properties.load(config.openStream());
-            configuredloggingLevel = properties.getProperty("logLevel");
-            System.out.println(properties.getProperty(configuredloggingLevel));
+
+            configuredloggingLevel = properties.getProperty("logging.level");
+            loggingOutputTarget = properties.getProperty("logging.output.target");
+
+            if("debug".equalsIgnoreCase(configuredloggingLevel)) {
+                debug = true;
+                info = true;
+                warning = true;
+                error = true;
+            } else if("info".equalsIgnoreCase(configuredloggingLevel)) {
+                info = true;
+                warning = true;
+                error = true;
+            } else if("warning".equalsIgnoreCase(configuredloggingLevel)) {
+                warning = true;
+                error = true;
+            } else if("error".equalsIgnoreCase(configuredloggingLevel)) {
+                error = true;
+            }
+
         } catch (FileNotFoundException fie) {
             fie.printStackTrace();
         }
@@ -36,24 +55,30 @@ public class AwinLogger {
         }
 
         classNameStr = className.getName();
-        System.out.println("Returning AwinLogger instance");
         return awinLogger;
     }
 
     public void debug(String message) {
-        System.out.println(new Date() + " DEBUG ["+classNameStr+"] - " + message);
+        if (isDebug())
+            System.out.println(new Date() + " DEBUG ["+classNameStr+"] - " + message);
     }
 
     public void info(String message) {
-        System.out.println(new Date() + " INFO ["+classNameStr+"] - " + message);
+        if (isInfo())
+            System.out.println(new Date() + " INFO ["+classNameStr+"] - " + message);
     }
 
     public void warning(String message) {
-        System.out.println(new Date() + " WARNING ["+classNameStr+"] - " + message);
+        if (isWarning())
+            System.out.println(new Date() + " WARNING ["+classNameStr+"] - " + message);
     }
 
     public void error(String message) {
-        System.out.println(new Date() + " ERROR ["+classNameStr+"] - " + message);
+        if (isError())
+            System.out.println(new Date() + " ERROR ["+classNameStr+"] - " + message);
     }
-
+    public boolean isDebug() { return AwinLogger.debug; }
+    public boolean isInfo() { return AwinLogger.info; }
+    public boolean isWarning() { return AwinLogger.info; }
+    public boolean isError() { return AwinLogger.error; }
 }
